@@ -1,7 +1,10 @@
 import React, {useContext , Fragment } from "react";
+import { AuthContext } from "../poviders/AuthProvider";
 import NavButton from "./NavButton";
 
 const Navbar = (props) => {
+
+    const [auth] = useContext(AuthContext);
 
     return (
         <Fragment>
@@ -33,7 +36,9 @@ const Navbar = (props) => {
             }}>
                 <NavButton to="/" label="Home"/>
                 <NavButton to="/login" label="Login"/>
-                <NavButton to="signup" label="Sign Up"/>
+                <NavButton to="/signup" label="Sign Up"/>
+                {/* TODO change label to auth.username */}
+                <NavButton to="/currentUser" label="currentUser"/>
             </div>
         </div>
         <div style={{height: "75px"}}/>

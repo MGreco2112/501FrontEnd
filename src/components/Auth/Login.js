@@ -33,6 +33,7 @@ const Login = () => {
             const res = await axios.post("http://localhost:8080/auth/signin", data);
 
             setAuth({
+                id: res.data.id,
                 token: res.data.token,
                 profile: {
                     id: res.data.id,
