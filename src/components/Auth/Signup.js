@@ -29,8 +29,8 @@ const Signup = () => {
         servesCompanies: false
     });
 
-    const [savedUserId, setSavedUserId] = useState({});
-    const [savedCompanyId, setSavedCompanyId] = useState({});
+    const [savedUserId, setSavedUserId] = useState();
+    const [savedCompanyId, setSavedCompanyId] = useState();
 
     const updateForm = (field, value) => {
         setNewUser({
@@ -93,13 +93,13 @@ const Signup = () => {
         try {
             const res = await axios.post("http://localhost:8080/auth/signin", data);
 
-            _createCompany(newCompany, res.data.token);
+            _createCompany(newCompany, res.data.token, res.data.id);
         } catch (err) {
             console.error(err.response ? err.response : err.message);
         }
     }
 
-    const _createCompany = async (data, token) => {
+    const _createCompany = async (data, token, userId) => {
         try {
             const res = await axios.post("http://localhost:8080/company/newCompany", data, {
                 headers :
@@ -110,27 +110,36 @@ const Signup = () => {
 
             setSavedCompanyId(res.data.id);
 
-            _connectUserToCompany(savedCompanyId, savedUserId, token);
+            _connectUserToCompany(res.data.id, userId, token);
         } catch (err) {
             console.error(err.response ? err.response : err.message);
         }
     }
 
     const _connectUserToCompany = async (companyId, userId, token) => {
+        console.log(companyId);
+        console.log(userId);
+
         try {
-            const res = await axios.put(`http://localhost:8080/users/addCompanyToUser/${userId}/${companyId}`, {
+            const res = await axios.put(`http://localhost:8080/users/addCompanyToUser/${userId}`, {id: companyId}, {
                 headers: {
-                    Authoriation: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`
                 }
             });
-            const resTwo = await axios.put(`http://localhost:8080/company/addPrimaryAdmin/${userId}/${companyId}`, {
+            const resTwo = await axios.put(`http://localhost:8080/company/addPrimaryAdmin/${userId}`, {id: companyId}, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            const resThree = await axios.put(`http://localhost:8080/company/addUser/${userId}`, {id: companyId}, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
 
-            console.log(res);
-            console.log(resTwo);
+            console.log(res.data);
+            console.log(resTwo.data);
+            console.log(resThree.data);
         } catch (err) {
             console.error(err.message ? err.message : err.response);
         }
@@ -149,7 +158,7 @@ const Signup = () => {
     const displayNewCompanyForm = () => {
         return (
             <NewCompanyForm
-                onSubmit={onSubmit}
+                onSubmit={onFinalSubmit}
                 onChange={updateCompanyForm}
                 newCompany={newCompany}
             />
@@ -161,19 +170,14 @@ const Signup = () => {
             return displaySignupForm();
         } else if (!companySubmitted) {
             return displayNewCompanyForm();   
-        } else {
-            onFinalSubmit();
         }
     }
 
     return (
         <Container>
             <h1>Signup</h1>
-            {console.log("loading:")}
-            {console.log(loading)}
-
             { loading ?
-                <InlineInputContainer/>
+                <h1>Loading...</h1>
                 :
                 displayForms()
             }            

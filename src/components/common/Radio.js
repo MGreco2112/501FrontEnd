@@ -14,7 +14,7 @@ const Radio = (props) => {
                 defaultChecked={props.checked}
             />
             <label
-                for={props.id}
+                htmlFor={props.id}
             >
                 {props.label}
             </label>
