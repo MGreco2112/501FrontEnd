@@ -13,7 +13,13 @@ const Signup = () => {
         fName: "",
         lName: "",
         roles: ["admin"]
-    })
+    });
+
+    const [newCompany, setNewCompany] = useState({
+        companyName: "",
+        servesPeople: false,
+        servesCompanies: false
+    });
 
     const updateForm = (field, value) => {
         setNewUser({
