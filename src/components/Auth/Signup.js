@@ -3,9 +3,17 @@ import axios from "axios";
 import Container from "../common/Container";
 import { useNavigate } from "react-router-dom";
 import SignupForm from "./SignupForm";
+import NewCompanyForm from "./NewCompanyForm";
+import InlineInputContainer from "../common/InlineInputContainer";
 
 const Signup = () => {
     const navigate = useNavigate();
+
+    const [userSubmitted, setUserSubmitted] = useState(false);
+
+    const [companySubmitted, setCompanySubmitted] = useState(false);
+
+    const [loading, setLoading] = useState(false);
 
     const [newUser, setNewUser] = useState({
         username: "",
@@ -21,6 +29,9 @@ const Signup = () => {
         servesCompanies: false
     });
 
+    const [savedUserId, setSavedUserId] = useState({});
+    const [savedCompanyId, setSavedCompanyId] = useState({});
+
     const updateForm = (field, value) => {
         setNewUser({
             ...newUser,
@@ -28,10 +39,28 @@ const Signup = () => {
         });
     }
 
-    const onSubmit = () => {
+    const updateCompanyForm = (field, value) => {
+        setNewCompany({
+            ...newCompany,
+            [field]: value
+        });
+    }
+
+    const onFinalSubmit = () => {
         const data = newUser;
 
+        console.log("reached");
+
         _createUser(data);
+    }
+
+    const onSubmit = () => {
+        if (!userSubmitted) {
+            setUserSubmitted(true);
+        } else if (!companySubmitted) {
+            setCompanySubmitted(true);
+        }
+        
     }
 
     const _createUser = async (data) => {
@@ -39,6 +68,8 @@ const Signup = () => {
             const res = await axios.post("http://localhost:8080/auth/signup", data);
 
             console.log(res.data);
+
+            setSavedUserId(res.data.id);
 
             _login(data);
         } catch (err) {
@@ -54,9 +85,77 @@ const Signup = () => {
         try {
             const res = await axios.post("http://localhost:8080/auth/signin", data);
 
-            navigate("/login")
+            _createCompany(newCompany, res.data.token);
         } catch (err) {
             console.error(err.response ? err.response : err.message);
+        }
+    }
+
+    const _createCompany = async (data, token) => {
+        try {
+            const res = await axios.post("http://localhost:8080/company/newCompany", data, {
+                headers :
+                {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            setSavedCompanyId(res.data.id);
+
+            _connectUserToCompany(savedCompanyId, savedUserId, token);
+        } catch (err) {
+            console.error(err.response ? err.response : err.message);
+        }
+    }
+
+    const _connectUserToCompany = async (companyId, userId, token) => {
+        try {
+            const res = await axios.put(`http://localhost:8080/users/addCompanyToUser/${userId}/${companyId}`, {
+                headers: {
+                    Authoriation: `Bearer ${token}`
+                }
+            });
+            const resTwo = await axios.put(`http://localhost:8080/company/addPrimaryAdmin/${userId}/${companyId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            console.log(res);
+            console.log(resTwo);
+        } catch (err) {
+            console.error(err.message ? err.message : err.response);
+        }
+    }
+
+    const displaySignupForm = () => {
+        return (
+            <SignupForm
+                newUser={newUser}
+                onChange={updateForm}
+                onSubmit={onSubmit}
+            />
+        )
+    }
+
+    const displayNewCompanyForm = () => {
+        return (
+            <NewCompanyForm
+                onSubmit={onSubmit}
+                onChange={updateCompanyForm}
+                newCompany={newCompany}
+            />
+        )
+    }
+
+    const displayForms = () => {
+        if (!userSubmitted) {
+            return displaySignupForm();
+        } else if (!companySubmitted) {
+            return displayNewCompanyForm();   
+        } else {
+            setLoading(true);
+            onFinalSubmit();
         }
     }
 
@@ -64,11 +163,11 @@ const Signup = () => {
         <Container>
             <h1>Signup</h1>
 
-            <SignupForm
-                newUser={newUser}
-                onChange={updateForm}
-                onSubmit={onSubmit}
-            />
+            { loading ?
+                <InlineInputContainer/>
+                :
+                displayForms()
+            }            
         </Container>
     )
 }

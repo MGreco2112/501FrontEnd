@@ -4,7 +4,6 @@ import InLineInputContainer from "../common/InlineInputContainer";
 import Form from "../common/Form";
 import Input from "../common/Input";
 import Button from "../common/Button";
-import Signup from "./Signup";
 
 const SignupForm = (props) => {
     const {onSubmit, onChange, newUser} = props;
