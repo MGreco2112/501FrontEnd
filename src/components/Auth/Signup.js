@@ -11,7 +11,8 @@ const Signup = () => {
         username: "",
         password: "",
         fName: "",
-        lName: ""
+        lName: "",
+        roles: ["admin"]
     })
 
     const updateForm = (field, value) => {
@@ -38,6 +39,10 @@ const Signup = () => {
             console.log(err.message ? err.message : err.response);
         }
     }
+
+    // Next: Create Company
+    // Next: Connect User to Company
+    // Next: User Account Invites via POP
 
     const _login = async (data) => {
         try {
