@@ -48,10 +48,12 @@ const Signup = () => {
 
     const onFinalSubmit = () => {
         const data = newUser;
-
+        
         console.log("reached");
-
+    
         _createUser(data);
+            
+        
     }
 
     const onSubmit = () => {
@@ -64,16 +66,22 @@ const Signup = () => {
     }
 
     const _createUser = async (data) => {
-        try {
-            const res = await axios.post("http://localhost:8080/auth/signup", data);
+        console.log("hit this point");
+        if (!loading) {
 
-            console.log(res.data);
+            try {
+                const res = await axios.post("http://localhost:8080/auth/signup", data);
 
-            setSavedUserId(res.data.id);
+                setLoading(true);
 
-            _login(data);
-        } catch (err) {
-            console.log(err.message ? err.message : err.response);
+                console.log(res.data);
+
+                setSavedUserId(res.data.id);
+
+                _login(data);
+            } catch (err) {
+                console.log(err.message ? err.message : err.response);
+            }
         }
     }
 
@@ -154,7 +162,6 @@ const Signup = () => {
         } else if (!companySubmitted) {
             return displayNewCompanyForm();   
         } else {
-            setLoading(true);
             onFinalSubmit();
         }
     }
@@ -162,6 +169,8 @@ const Signup = () => {
     return (
         <Container>
             <h1>Signup</h1>
+            {console.log("loading:")}
+            {console.log(loading)}
 
             { loading ?
                 <InlineInputContainer/>
