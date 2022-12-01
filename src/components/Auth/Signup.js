@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import SignupForm from "./SignupForm";
 import NewCompanyForm from "./NewCompanyForm";
 import InlineInputContainer from "../common/InlineInputContainer";
+import NewFundingPartnerForm from "./NewFundingPartnerForm";
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -29,8 +30,15 @@ const Signup = () => {
         servesCompanies: false
     });
 
-    const [savedUserId, setSavedUserId] = useState();
-    const [savedCompanyId, setSavedCompanyId] = useState();
+    const [newPartner, setNewPartner] = useState({
+        name: "",
+        fundingAmount: 0.0,
+        fundingDate: "",
+        approved: false,
+        isOneTime: false,
+        isFundedMonthly: false,
+        isFundedAnnually: false
+    })
 
     const updateForm = (field, value) => {
         setNewUser({
@@ -46,10 +54,15 @@ const Signup = () => {
         });
     }
 
+    const updateNewPartnerForm = (field, value) => {
+        setNewPartner({
+            ...newPartner,
+            [field]: value
+        });
+    }
+
     const onFinalSubmit = () => {
         const data = newUser;
-        
-        console.log("reached");
     
         _createUser(data);
             
@@ -66,17 +79,12 @@ const Signup = () => {
     }
 
     const _createUser = async (data) => {
-        console.log("hit this point");
         if (!loading) {
 
             try {
                 const res = await axios.post("http://localhost:8080/auth/signup", data);
 
                 setLoading(true);
-
-                console.log(res.data);
-
-                setSavedUserId(res.data.id);
 
                 _login(data);
             } catch (err) {
@@ -87,6 +95,7 @@ const Signup = () => {
 
     // Next: Create Company
     // Next: Connect User to Company
+    // Next: Create FundingPartner
     // Next: User Account Invites via POP
 
     const _login = async (data) => {
@@ -108,34 +117,54 @@ const Signup = () => {
                 }
             });
 
-            setSavedCompanyId(res.data.id);
-
-            _connectUserToCompany(res.data.id, userId, token);
+            // _connectUserToCompany(res.data.id, userId, token);
+            _createNewPartner(newPartner, token, userId, res.data.id);
         } catch (err) {
             console.error(err.response ? err.response : err.message);
         }
     }
 
-    const _connectUserToCompany = async (companyId, userId, token) => {
-        console.log(companyId);
-        console.log(userId);
+    const _createNewPartner = async (data, token, userId, companyId) => {
+        try {
+            const res = await axios.post("http://localhost:8080/fundingPartner", data, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            _connectUserToCompany(companyId, userId, token, res.data.id);
+        } catch (err) {
+            console.error(err.response ? err.response : err.message);
+        }
+    }
+
+    const _connectUserToCompany = async (companyId, userId, token, partnerId) => {
+            
+        const company = {
+            id: companyId
+        };
 
         try {
-            const res = await axios.put(`http://localhost:8080/users/addCompanyToUser/${userId}`, {id: companyId}, {
+            const res = await axios.put(`http://localhost:8080/users/addCompanyToUser/${userId}`, company, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            const resTwo = await axios.put(`http://localhost:8080/company/addPrimaryAdmin/${userId}`, {id: companyId}, {
+            const resTwo = await axios.put(`http://localhost:8080/company/addPrimaryAdmin/${userId}`, company, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            const resThree = await axios.put(`http://localhost:8080/company/addUser/${userId}`, {id: companyId}, {
+            const resThree = await axios.put(`http://localhost:8080/company/addUser/${userId}`, company, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
+            const resFour = await axios.put(`http://localhost:8080/fundingPartner/addPartnerToCompany/${partnerId}`, company, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
 
             console.log(res.data);
             console.log(resTwo.data);
@@ -158,9 +187,19 @@ const Signup = () => {
     const displayNewCompanyForm = () => {
         return (
             <NewCompanyForm
-                onSubmit={onFinalSubmit}
+                onSubmit={onSubmit}
                 onChange={updateCompanyForm}
                 newCompany={newCompany}
+            />
+        )
+    }
+
+    const displayNewFundingPartnerForm = () => {
+        return (
+            <NewFundingPartnerForm
+                onSubmit={onFinalSubmit}
+                onChange={updateNewPartnerForm}
+                newPartner={newPartner}
             />
         )
     }
@@ -170,6 +209,8 @@ const Signup = () => {
             return displaySignupForm();
         } else if (!companySubmitted) {
             return displayNewCompanyForm();   
+        } else if (companySubmitted) {
+            return displayNewFundingPartnerForm();
         }
     }
 
