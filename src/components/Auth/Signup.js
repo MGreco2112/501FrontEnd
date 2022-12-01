@@ -160,6 +160,7 @@ const Signup = () => {
                     Authorization: `Bearer ${token}`
                 }
             });
+            //TODO add choice between posting new partner and selecting existing partner to pair from Database
             const resFour = await axios.put(`http://localhost:8080/fundingPartner/addPartnerToCompany/${partnerId}`, company, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -169,6 +170,7 @@ const Signup = () => {
             console.log(res.data);
             console.log(resTwo.data);
             console.log(resThree.data);
+            console.log(resFour.data);
         } catch (err) {
             console.error(err.message ? err.message : err.response);
         }
