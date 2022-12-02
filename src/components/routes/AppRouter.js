@@ -5,6 +5,7 @@ import Home from "../Home";
 import Signup from "../Auth/Signup";
 import Login from "../Auth/Login";
 import CurrentUser from "../user/CurrentUser";
+import InviteUser from "../InviteUsers/InviteUser";
 
 const AppRouter = () => {
     return (
@@ -14,7 +15,8 @@ const AppRouter = () => {
             <Route path="/" element={<Home/>}/>
             <Route path="/signup" element={<Signup/>}/>
             <Route path="/login" element={<Login/>}/>
-            <Route path="currentUser" element={<CurrentUser/>}/>
+            <Route path="/currentUser" element={<CurrentUser/>}/>
+            <Route path="/inviteUser" element={<InviteUser/>}/>
         </Routes>
     </div>
     )

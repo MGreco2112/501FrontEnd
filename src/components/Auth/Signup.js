@@ -1,8 +1,9 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import axios from "axios";
 import Container from "../common/Container";
 import { useNavigate } from "react-router-dom";
 import SignupForm from "./SignupForm";
+import { AuthContext } from "../poviders/AuthProvider";
 import NewCompanyForm from "./NewCompanyForm";
 import InlineInputContainer from "../common/InlineInputContainer";
 import NewFundingPartnerForm from "./NewFundingPartnerForm";
@@ -15,6 +16,8 @@ const Signup = () => {
     const [companySubmitted, setCompanySubmitted] = useState(false);
 
     const [loading, setLoading] = useState(false);
+
+    const [auth, setAuth] = useContext(AuthContext);
 
     const [newUser, setNewUser] = useState({
         username: "",
@@ -102,6 +105,15 @@ const Signup = () => {
         try {
             const res = await axios.post("http://localhost:8080/auth/signin", data);
 
+            setAuth({
+                token: res.data.token,
+                profile: {
+                    id: res.data.id,
+                    username: res.data.username
+                },
+                roles: res.data.roles
+            });
+
             _createCompany(newCompany, res.data.token, res.data.id);
         } catch (err) {
             console.error(err.response ? err.response : err.message);
@@ -165,12 +177,14 @@ const Signup = () => {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
-            })
+            });
 
             console.log(res.data);
             console.log(resTwo.data);
             console.log(resThree.data);
             console.log(resFour.data);
+
+            navigate("/inviteUser");
         } catch (err) {
             console.error(err.message ? err.message : err.response);
         }
