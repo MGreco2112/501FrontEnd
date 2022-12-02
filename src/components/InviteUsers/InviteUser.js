@@ -28,7 +28,17 @@ const InviteUser = () => {
 
     const _sendInviteCall = async (data) => {
 
-        const updatedBody = `This is a test of the automated invite system via frontend\nClick link to sign up http://localhost:3000/invite/userRole/${data.email}`
+        const updatedBody = `This is a test of the automated invite system via frontend`
+
+        if (data.roles.contains("admin")) {
+            updatedBody += `\nClick link to sign up http://localhost:3000/invite/admin/${data.email}`
+        } else if (data.roles.contains("manager")) {
+            updatedBody += `\nClick link to sign up http://localhost:3000/invite/manager/${data.email}`
+        } else if (data.roles.contains("view only")) {
+            updatedBody += `\nClick link to sign up http://localhost:3000/invite/viewOnly/${data.email}`
+        } else {
+            updatedBody += `\nClick link to sign up http://localhost:3000/invite/user/${data.email}`
+        }
 
         setNewUser({
             ...newUser,

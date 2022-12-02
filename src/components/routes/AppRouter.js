@@ -18,7 +18,7 @@ const AppRouter = () => {
             <Route path="/login" element={<Login/>}/>
             <Route path="/currentUser" element={<CurrentUser/>}/>
             <Route path="/inviteUser" element={<InviteUser/>}/>
-            <Route path="/invite/userRole/:username" element={<AcceptUserRoleInvite/>}/>
+            <Route path="/invite/:role/:username" element={<AcceptUserRoleInvite/>}/>
         </Routes>
     </div>
     )

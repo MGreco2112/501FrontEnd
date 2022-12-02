@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -13,7 +13,8 @@ const AcceptUserRoleInvite = () => {
     
     const [newUser, setNewUser] = useState({
         username: params.username,
-        password: ""
+        password: "",
+        roles: []
     });
 
     const updateForm = (field, value) => {
@@ -26,6 +27,32 @@ const AcceptUserRoleInvite = () => {
     const onSubmit = () => {
         _postNewUser(newUser);
     }
+
+    useEffect(() => {
+        const populateRoles = () => {
+            const roles = [];
+
+            switch (params.role) {
+                case "user":
+                    roles = ["user"];
+                    break;
+                case "manager":
+                    roles = ["user", "manager"];
+                    break;
+                case "admin":
+                    roles = ["user", "admin"];
+                    break;
+                case "readOnly":
+                    roles = ["read-only"];
+                    break;
+                default:
+                    alert("Invalid Invite");
+                    useNavigate("/");
+                    break;
+            }
+        }
+        populateRoles();
+    }, [])
 
     const _postNewUser = async (data) => {
         try {
