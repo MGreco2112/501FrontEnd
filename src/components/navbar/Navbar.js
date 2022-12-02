@@ -35,10 +35,18 @@ const Navbar = (props) => {
                 alignItems: "center",
             }}>
                 <NavButton to="/" label="Home"/>
-                <NavButton to="/login" label="Login"/>
-                <NavButton to="/signup" label="Sign Up"/>
-                {/* TODO change label to auth.username */}
-                <NavButton to="/currentUser" label="currentUser"/>
+                {auth.token ?
+                <Fragment>
+                    <NavButton to="/inviteUser" label="Invite"/>
+                    {/* TODO change label to auth.username */}
+                    <NavButton to="/currentUser" label="currentUser"/>
+                </Fragment>
+                    :
+                <Fragment>
+                    <NavButton to="/login" label="Login"/>
+                    <NavButton to="/signup" label="Sign Up"/>
+                </Fragment>
+                }
             </div>
         </div>
         <div style={{height: "75px"}}/>

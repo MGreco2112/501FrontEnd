@@ -6,6 +6,7 @@ import Container from "../common/Container";
 
 
 const InviteUser = () => {
+
     const [auth] = useContext(AuthContext);
 
     const [newUser, setNewUser] = useState({
@@ -27,9 +28,11 @@ const InviteUser = () => {
 
     const _sendInviteCall = async (data) => {
 
+        const updatedBody = `This is a test of the automated invite system via frontend\nClick link to sign up http://localhost:3000/invite/userRole/${data.email}`
+
         setNewUser({
             ...newUser,
-            body: "This is a test of the automated invite system via frontend"
+            body: updatedBody
         });
 
         try {
