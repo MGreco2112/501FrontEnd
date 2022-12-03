@@ -56,13 +56,13 @@ const InviteUser = () => {
 
     const _sendInviteCall = async (data) => {
 
-        const updatedBody = `This is a test of the automated invite system via frontend`
+        let updatedBody = `This is a test of the automated invite system via frontend`
 
-        if (data.roles.contains("admin")) {
+        if (data.roles.includes("admin")) {
             updatedBody += `\nClick link to sign up http://localhost:3000/invite/admin/`
-        } else if (data.roles.contains("manager")) {
+        } else if (data.roles.includes("manager")) {
             updatedBody += `\nClick link to sign up http://localhost:3000/invite/manager/`
-        } else if (data.roles.contains("view only")) {
+        } else if (data.roles.includes("view only")) {
             updatedBody += `\nClick link to sign up http://localhost:3000/invite/viewOnly/`
         } else {
             updatedBody += `\nClick link to sign up http://localhost:3000/invite/user/`

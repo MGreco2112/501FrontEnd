@@ -30,26 +30,33 @@ const AcceptUserRoleInvite = () => {
 
     useEffect(() => {
         const populateRoles = () => {
-            const roles = [];
+            console.log(params.role);
+
+            let userRoles = [];
 
             switch (params.role) {
                 case "user":
-                    roles = ["user"];
+                    userRoles = ["user"];
                     break;
                 case "manager":
-                    roles = ["user", "manager"];
+                    userRoles = ["user", "manager"];
                     break;
                 case "admin":
-                    roles = ["user", "admin"];
+                    userRoles = ["user", "admin"];
                     break;
                 case "readOnly":
-                    roles = ["read-only"];
+                    userRoles = ["read-only"];
                     break;
                 default:
                     alert("Invalid Invite");
                     // useNavigate("/");
                     break;
             }
+
+            setNewUser({
+                ...newUser,
+                roles: userRoles
+            })
         }
         populateRoles();
     }, [])
