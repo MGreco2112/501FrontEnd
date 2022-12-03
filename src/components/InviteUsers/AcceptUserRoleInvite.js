@@ -62,8 +62,28 @@ const AcceptUserRoleInvite = () => {
         try {
             const res = await axios.post("http://localhost:8080/auth/signup", data);
 
+            _loginUser(data);
+        } catch (err) {
+            console.error(err.response ? err.response : err.message);
+        }
+    }
+
+    const _loginUser = async (data) => {
+        try {
             const login = await axios.post("http://localhost:8080/auth/signin", data);
 
+            _acceptInvite(res.data.token);
+        } catch (err) {
+            console.error(err.message ? err.response : err.message);
+        }
+    }
+
+    const _acceptInvite = async (token) => {
+        const invite = {
+            inviteId: params.inviteId
+        };
+
+        try {
             const acceptInvite = await axios.put("http://localhost:8080/users/acceptInviteToCompany", invite, {
                     headers: {
                         Authorization: `Bearer ${login.data.token}`
@@ -74,7 +94,7 @@ const AcceptUserRoleInvite = () => {
 
             navigate("/login");
         } catch (err) {
-            console.error(err.response ? err.response : err.message);
+            console.error(err.message ? err.message : err.response);
         }
     }
     
