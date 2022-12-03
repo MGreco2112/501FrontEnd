@@ -31,13 +31,13 @@ const InviteUser = () => {
         const updatedBody = `This is a test of the automated invite system via frontend`
 
         if (data.roles.contains("admin")) {
-            updatedBody += `\nClick link to sign up http://localhost:3000/invite/admin/${data.email}`
+            updatedBody += `\nClick link to sign up http://localhost:3000/invite/admin/${data.email}/${auth.profile.id}`
         } else if (data.roles.contains("manager")) {
-            updatedBody += `\nClick link to sign up http://localhost:3000/invite/manager/${data.email}`
+            updatedBody += `\nClick link to sign up http://localhost:3000/invite/manager/${data.email}/${auth.profile.id}`
         } else if (data.roles.contains("view only")) {
-            updatedBody += `\nClick link to sign up http://localhost:3000/invite/viewOnly/${data.email}`
+            updatedBody += `\nClick link to sign up http://localhost:3000/invite/viewOnly/${data.email}/${auth.profile.id}`
         } else {
-            updatedBody += `\nClick link to sign up http://localhost:3000/invite/user/${data.email}`
+            updatedBody += `\nClick link to sign up http://localhost:3000/invite/user/${data.email}/${auth.profile.id}`
         }
 
         setNewUser({

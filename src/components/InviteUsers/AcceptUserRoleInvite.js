@@ -55,9 +55,23 @@ const AcceptUserRoleInvite = () => {
     }, [])
 
     const _postNewUser = async (data) => {
+        const invite = {
+            inviteId: params.inviteId
+        };
+
         try {
             const res = await axios.post("http://localhost:8080/auth/signup", data);
+
+            const login = await axios.post("http://localhost:8080/auth/signin", data);
+
+            const acceptInvite = await axios.put("http://localhost:8080/users/acceptInviteToCompany", invite, {
+                    headers: {
+                        Authorization: `Bearer ${login.data.token}`
+                    }
+            });
             
+            console.log(acceptInvite.data);
+
             navigate("/login");
         } catch (err) {
             console.error(err.response ? err.response : err.message);
