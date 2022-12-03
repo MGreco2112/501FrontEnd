@@ -47,7 +47,7 @@ const AcceptUserRoleInvite = () => {
                     break;
                 default:
                     alert("Invalid Invite");
-                    useNavigate("/");
+                    // useNavigate("/");
                     break;
             }
         }
@@ -72,7 +72,7 @@ const AcceptUserRoleInvite = () => {
         try {
             const login = await axios.post("http://localhost:8080/auth/signin", data);
 
-            _acceptInvite(res.data.token);
+            _acceptInvite(login.data.token);
         } catch (err) {
             console.error(err.message ? err.response : err.message);
         }
@@ -86,7 +86,7 @@ const AcceptUserRoleInvite = () => {
         try {
             const acceptInvite = await axios.put("http://localhost:8080/users/acceptInviteToCompany", invite, {
                     headers: {
-                        Authorization: `Bearer ${login.data.token}`
+                        Authorization: `Bearer ${token}`
                     }
             });
             
