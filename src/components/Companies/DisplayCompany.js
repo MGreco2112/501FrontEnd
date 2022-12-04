@@ -13,13 +13,13 @@ const DisplayCompany = () => {
     useEffect(() => {
         const _getCompany = async () => {
             try {
-                const res = await axios.get("http://localhost:8080/users/currentUser", {
+                const res = await axios.get(`http://localhost:8080/company/${params.companyId}`, {
                     headers: {
                         Authorization: `Bearer ${auth.token}`
                     }
                 });
-                console.log(res.data.company);
-                setCompany(res.data.company);
+                console.log(res.data);
+                setCompany(res.data);
             } catch (err) {
                 console.error(err.message ? err.message : err.response);
             }
