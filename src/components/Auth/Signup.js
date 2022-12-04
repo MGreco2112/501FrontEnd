@@ -96,11 +96,6 @@ const Signup = () => {
         }
     }
 
-    // Next: Create Company
-    // Next: Connect User to Company
-    // Next: Create FundingPartner
-    // Next: User Account Invites via POP
-
     const _login = async (data) => {
         try {
             const res = await axios.post("http://localhost:8080/auth/signin", data);
@@ -162,16 +157,7 @@ const Signup = () => {
                     Authorization: `Bearer ${token}`
                 }
             });
-            const resTwo = await axios.put(`http://localhost:8080/company/addPrimaryAdmin/${userId}`, company, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            const resThree = await axios.put(`http://localhost:8080/company/addUser/${userId}`, company, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            
             //TODO add choice between posting new partner and selecting existing partner to pair from Database
             const resFour = await axios.put(`http://localhost:8080/fundingPartner/addPartnerToCompany/${partnerId}`, company, {
                 headers: {
@@ -180,8 +166,6 @@ const Signup = () => {
             });
 
             console.log(res.data);
-            console.log(resTwo.data);
-            console.log(resThree.data);
             console.log(resFour.data);
 
             navigate("/inviteUser");
