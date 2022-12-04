@@ -2,6 +2,8 @@ import React, {useState, useContext, useEffect} from "react";
 import { AuthContext } from "../poviders/AuthProvider";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import Container from "../common/Container";
+import InlineInputContainer from "../common/InlineInputContainer";
 
 const DisplayCompany = () => {
     const params = useParams();
@@ -9,6 +11,8 @@ const DisplayCompany = () => {
     const [auth] = useContext(AuthContext);
 
     const [company, setCompany] = useState()
+
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const _getCompany = async () => {
@@ -20,20 +24,45 @@ const DisplayCompany = () => {
                 });
                 console.log(res.data);
                 setCompany(res.data);
+                setLoading(false);
             } catch (err) {
                 console.error(err.message ? err.message : err.response);
             }
         }
-
+        setLoading(true);
         if (auth.token) {
             _getCompany();
         }
-    }, [auth]);
+    }, [auth, params.companyId]);
 
     console.log(company);
 
+    const displayPage = () => {
+
+        return (
+            <Container>
+                <div style={{
+                            flex: 1,
+                            flexDirection: 'column',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}>
+                    <h1>{company.companyName}</h1>
+                </div>
+            </Container>
+        )
+    }
+
     return (
-        <h1>DisplayCompany</h1>
+        <Container>
+            {/* <h1>DisplayCompany</h1> */}
+            {loading ?
+                <InlineInputContainer/>
+                :
+                displayPage()
+            }
+        </Container>
     );
 }
 
