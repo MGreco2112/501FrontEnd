@@ -40,6 +40,10 @@ const CurrentUser = (props) => {
         }
     }, [auth]);
 
+    const onClick = (companyId) => {
+        navigate(`/company/${companyId}`)
+    }
+
     const formatPage = () => {
         console.log(user);
         return (
@@ -57,6 +61,7 @@ const CurrentUser = (props) => {
                     <Company
                         companyName={user.company.companyName}
                         companyId={user.company.companyId}
+                        onSelect={onClick}
                     />
                 </div>
             </Container>

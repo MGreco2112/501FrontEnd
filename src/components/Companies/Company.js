@@ -10,7 +10,7 @@ const Company = (props) => {
     }
 
     return (
-        <BorderCard style={{flexDirection: "column", alignment: "center"}}>
+        <BorderCard onClick={onSelect} style={{flexDirection: "column", alignment: "center"}}>
             <h2>{companyName}</h2>
         </BorderCard>
     );
