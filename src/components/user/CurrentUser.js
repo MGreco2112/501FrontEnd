@@ -1,14 +1,23 @@
-import React, {useContext, useEffect} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { AuthContext } from "../poviders/AuthProvider";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Container from "../common/Container";
+import InlineInputContainer from "../common/InlineInputContainer";
+import Company from "../Companies/Company";
 
 
 const CurrentUser = (props) => {
 
     const [auth] = useContext(AuthContext);
 
+    const navigate = useNavigate();
+
+    const [loading, setLoading] = useState(true);
+
+    const [user, setUser] = useState();
+
     useEffect(() => {
-        console.log(auth.token);
 
         const _getCurrentUser = async () => {
             try {
@@ -18,19 +27,53 @@ const CurrentUser = (props) => {
                     }
                 });
 
-                console.log(res.data);
+                setUser(res.data);
+                setLoading(false);
             } catch (err) {
                 console.error(err.message ? err.message : err.response);
             }
         }
 
+        setLoading(true);
         if (auth.token) {
             _getCurrentUser();
         }
-    }, [auth])
+    }, [auth]);
+
+    const formatPage = () => {
+        console.log(user);
+        return (
+            <Container>
+                <div style={{
+                            flex: 1,
+                            flexDirection: 'column',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}>
+        
+                    <h1>{user.username}</h1>
+
+                    <Company
+                        companyName={user.company.companyName}
+                        companyId={user.company.companyId}
+                    />
+                </div>
+            </Container>
+        );
+    }
 
     return (
-        <h1>Current User</h1>
+        <Container>
+
+            { loading ?
+
+                <InlineInputContainer/>
+            :
+                formatPage()
+            }
+
+        </Container>
     )
 }
 
