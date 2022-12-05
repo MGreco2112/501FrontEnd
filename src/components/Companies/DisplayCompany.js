@@ -50,18 +50,21 @@ const DisplayCompany = () => {
                         }}>
                     <h1>{company.companyName}</h1>
                     <h2>Company Info:</h2>
-                    
+
                     <div style={{flexDirection: 'row'}}>
 
                         <div style={{flexDirection: 'column'}}>
 
-                            {/* {displayRecords()} */}
                             <h2>Test Information</h2>
                                 
                         </div>
                         <div style={{flexDirection: 'column'}}>
                             
-                            {/* {formatComments()} */}
+                            <h2>Test Information</h2>
+
+                        </div>
+                        <div style={{flexDirection: 'column'}}>
+                            
                             <h2>Test Information</h2>
 
                         </div>
