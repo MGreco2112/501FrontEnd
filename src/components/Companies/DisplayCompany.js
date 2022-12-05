@@ -6,6 +6,7 @@ import Container from "../common/Container";
 import InlineInputContainer from "../common/InlineInputContainer";
 import Service from "../Services/Service";
 import User from "../user/User";
+import Partner from "../Partner/Partner";
 
 const DisplayCompany = () => {
     const params = useParams();
@@ -40,7 +41,7 @@ const DisplayCompany = () => {
     const displayServices = () => {
         if (company.serviceSet.lenght != 0) {
             return company.serviceSet.map(service => {
-                return <Service service={service} key={service.name}/>
+                return <Service service={service} key={service.name} onSelect={onServiceClick}/>
             });
         }
     }
@@ -48,9 +49,29 @@ const DisplayCompany = () => {
     const displayUsers = () => {
         if (company.users.length != 0) {
             return company.users.map(user => {
-                return <User user={user} key={user.username}/>
+                return <User user={user} key={user.username} onSelect={onUserClick}/>
             });
         }
+    }
+
+    const displayPartners = () => {
+        if (company.partnerSet.length != 0) {
+            return company.partnerSet.map(partner => {
+                return <Partner partner={partner} key={partner.name} onSelect={onPartnerClick}/>
+            })
+        }
+    }
+
+    const onServiceClick = () => {
+
+    }
+
+    const onUserClick = () => {
+
+    }
+
+    const onPartnerClick = () => {
+
     }
 
     const displayPage = () => {
@@ -78,7 +99,9 @@ const DisplayCompany = () => {
                         </div>
                         <div style={{flexDirection: 'column'}}>
                             
-                            <h2>Test Information</h2>
+                            <h2>Funding Partners:</h2>
+
+                            {displayPartners()}
 
                         </div>
                         <div style={{flexDirection: 'column'}}>
