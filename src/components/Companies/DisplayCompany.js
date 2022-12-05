@@ -49,6 +49,23 @@ const DisplayCompany = () => {
                             alignItems: 'center'
                         }}>
                     <h1>{company.companyName}</h1>
+                    <h2>Company Info:</h2>
+                    
+                    <div style={{flexDirection: 'row'}}>
+
+                        <div style={{flexDirection: 'column'}}>
+
+                            {/* {displayRecords()} */}
+                            <h2>Test Information</h2>
+                                
+                        </div>
+                        <div style={{flexDirection: 'column'}}>
+                            
+                            {/* {formatComments()} */}
+                            <h2>Test Information</h2>
+
+                        </div>
+                    </div>
                 </div>
             </Container>
         )
@@ -56,7 +73,6 @@ const DisplayCompany = () => {
 
     return (
         <Container>
-            {/* <h1>DisplayCompany</h1> */}
             {loading ?
                 <InlineInputContainer/>
                 :
