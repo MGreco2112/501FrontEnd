@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Container from "../common/Container";
 import InlineInputContainer from "../common/InlineInputContainer";
+import Service from "../Services/Service";
+import User from "../user/User";
 
 const DisplayCompany = () => {
     const params = useParams();
@@ -35,7 +37,21 @@ const DisplayCompany = () => {
         }
     }, [auth, params.companyId]);
 
-    console.log(company);
+    const displayServices = () => {
+        if (company.serviceSet.lenght != 0) {
+            return company.serviceSet.map(service => {
+                return <Service service={service} key={service.name}/>
+            });
+        }
+    }
+
+    const displayUsers = () => {
+        if (company.users.length != 0) {
+            return company.users.map(user => {
+                return <User user={user} key={user.username}/>
+            });
+        }
+    }
 
     const displayPage = () => {
 
@@ -55,7 +71,9 @@ const DisplayCompany = () => {
 
                         <div style={{flexDirection: 'column'}}>
 
-                            <h2>Test Information</h2>
+                            <h2>Services:</h2>
+
+                            {displayServices()}
                                 
                         </div>
                         <div style={{flexDirection: 'column'}}>
@@ -65,7 +83,9 @@ const DisplayCompany = () => {
                         </div>
                         <div style={{flexDirection: 'column'}}>
                             
-                            <h2>Test Information</h2>
+                            <h2>Users:</h2>
+
+                            {displayUsers()}
 
                         </div>
                     </div>
