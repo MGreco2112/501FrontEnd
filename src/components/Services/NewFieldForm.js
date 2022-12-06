@@ -11,29 +11,36 @@ import IntegerInputField from "./IntegerInputField";
 import FloatInputField from "./FloatInputField";
 
 const NewFieldForm = (props) => {
-    const {onSubmit, onChange, newField} = props;
+    const {onSubmit, onChange, newField, setNewField} = props;
 
     const handleChange = (e) => {
         onChange(e.target.id, e.target.value);
     }
 
+    console.log(newField);
+
     const handleRadio = () => {
         if (document.getElementById("isString").checked) {
-            onChange("isString", true);
-        } else {
-            onChange("isString", false);
-        }
-
-        if (document.getElementById("isInt").checked) {
-            onChange("isInt", true);
-        } else {
-            onChange("isInt", false);
-        }
-
-        if (document.getElementById("isFloat").checked) {
-            onChange("isFloat", true);
-        } else {
-            onChange("isFloat", false);
+            setNewField({
+                ...newField,
+                isString: true,
+                isInt: false,
+                isFloat: false
+            });
+        } else if (document.getElementById("isInt").checked) {
+            setNewField({
+                ...newField,
+                isString: false,
+                isInt: true,
+                isFloat: false
+            });
+        } else if (document.getElementById("isFloat").checked) {
+            setNewField({
+                ...newField,
+                isString: false,
+                isInt: false,
+                isFloat: true
+            });
         }
 
     }

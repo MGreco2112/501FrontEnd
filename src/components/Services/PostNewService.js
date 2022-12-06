@@ -135,6 +135,7 @@ const PostNewService = () => {
                 onSubmit={onFieldFormSubmit}
                 onChange={updateNewFieldForm}
                 newField={newServiceField}
+                setNewField={setNewServiceField}
             />
         );
     }
