@@ -3,6 +3,8 @@ import Container from "../common/Container";
 import axios from "axios";
 import { AuthContext } from "../poviders/AuthProvider";
 import { useParams } from "react-router-dom";
+import Service from "../Services/Service";
+import Button from "../common/Button";
 
 const DisplayService = () => {
     const params = useParams();
@@ -24,6 +26,7 @@ const DisplayService = () => {
                     }
                 });
 
+                console.log(res.data);
                 setDisplayedServices(res.data);
                 setLoading(false);
             } catch (err) {
@@ -54,10 +57,20 @@ const DisplayService = () => {
         }
     }
 
-    const displayPage = () => {
+    const displayServices = () => {
+        return displayedServices.map(service => {
+            return <Service service={service} key={service.name} isPII={false}/>
+        })
+    }
+
+    const displayParsedPage = () => {
         return (
             <Container>
-
+                {displayedServices.length > 0 ?
+                    displayServices()
+                :
+                    <Button>Add New Service</Button>
+                }
             </Container>
         );
     }
@@ -66,9 +79,8 @@ const DisplayService = () => {
         <Container>
             {loading ?
                 <h1>Loading...</h1>
-                
                 :
-                <h1>DisplayService</h1>
+                displayParsedPage()
             }
 
         </Container>

@@ -9,6 +9,7 @@ import InviteUser from "../InviteUsers/InviteUser";
 import AcceptUserRoleInvite from "../InviteUsers/AcceptUserRoleInvite";
 import DisplayCompany from "../Companies/DisplayCompany";
 import DisplayService from "../Services/DisplayService";
+import PostNewService from "../Services/PostNewService";
 
 const AppRouter = () => {
     return (
@@ -23,6 +24,7 @@ const AppRouter = () => {
             <Route path="/invite/:role/:username/:inviteId" element={<AcceptUserRoleInvite/>}/>
             <Route path="/company/:companyId" element={<DisplayCompany/>}/>
             <Route path="/service/:companyId" element={<DisplayService/>}/>
+            <Route path="/service/newService/:companyId" element={<PostNewService/>}/>
         </Routes>
     </div>
     )

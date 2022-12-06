@@ -88,9 +88,7 @@ const DisplayCompany = () => {
                         <div style={{flexDirection: 'column'}}>
 
                             <h2>Services:</h2>
-
                             <Button type="button" onClick={onClick}>Show Connected Services</Button>
-                                
                         </div>
                         <div style={{flexDirection: 'column'}}>
                             
