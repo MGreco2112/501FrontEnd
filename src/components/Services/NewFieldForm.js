@@ -6,6 +6,9 @@ import Container from "../common/Container";
 import Input from "../common/Input";
 import Radio from "../common/Radio";
 import Checkbox from "../common/Checkbox";
+import StringInputField from "./StringInputField";
+import IntegerInputField from "./IntegerInputField";
+import FloatInputField from "./FloatInputField";
 
 const NewFieldForm = (props) => {
     const {onSubmit, onChange, newField} = props;
@@ -16,65 +19,23 @@ const NewFieldForm = (props) => {
 
     const handleRadio = () => {
         if (document.getElementById("isString").checked) {
-            newField.isString = true;
-        } else if (document.getElementById("isInt").checked) {
-            newField.isInt = true;
-        } else if (document.getElementById("isFloat").checked) {
-            newField.isFloat = true;
-        }
-
-        placeNewInputs();
-    }
-
-    const placeNewInputs = () => {
-        let destination = document.getElementById("inputPlane");
-
-        if (newField.isString) {
-
-            destination =
-                <Input
-                    name="stringValue"
-                    id="stringValue"
-                    value={newField.stringValue}
-                    placeholder="Text Data"
-                    onChange={handleChange}
-                    required
-                />
-            ;
-            console.log(destination);
-            return;
-        } else if (newField.isInt) {
-
-            destination = (
-                <Input
-                    name="intValue"
-                    id="intValue"
-                    value={newField.intValue}
-                    placeholder="Number Value"
-                    onChange={handleChange}
-                    required
-                />
-            );
-            console.log(destination);
-            return;
-        } else if (newField.isFloat) {
-            destination = (
-                <Input
-                    name="floatValue"
-                    id="floatValue"
-                    value={newField.floatValue}
-                    placeholder="Decimal Number Value"
-                    onChange={handleChange}
-                    required
-                />
-            );
-            console.log(destination);
-            return;
+            onChange("isString", true);
         } else {
-            destination = (
-                <div/>
-            );
+            onChange("isString", false);
         }
+
+        if (document.getElementById("isInt").checked) {
+            onChange("isInt", true);
+        } else {
+            onChange("isInt", false);
+        }
+
+        if (document.getElementById("isFloat").checked) {
+            onChange("isFloat", true);
+        } else {
+            onChange("isFloat", false);
+        }
+
     }
 
     const handleCheckbox = () => {
@@ -105,7 +66,21 @@ const NewFieldForm = (props) => {
                     <Checkbox id="pii" name="pii" onChange={handleCheckbox} label="Confidential Information"/>
                 </InlineInputContainer>
                 <InlineInputContainer>
-                    <div id="inputPlane"/>
+                    {newField.isString ?
+                        <StringInputField onChange={handleChange} newField={newField}/>
+                        :
+                        <InlineInputContainer/>
+                    }
+                    {newField.isInt ?
+                        <IntegerInputField onChange={handleChange} newField={newField}/>
+                        :
+                        <InlineInputContainer/>
+                    }
+                    {newField.isFloat ?
+                        <FloatInputField onChange={handleChange} newField={newField}/>
+                        :
+                        <InlineInputContainer/>
+                    }
                 </InlineInputContainer>
                 <Button>Submit</Button>
             </Form>
