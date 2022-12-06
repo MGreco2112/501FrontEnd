@@ -3,7 +3,7 @@ import React, { Fragment } from "react";
 const InlineInputContainer = (props) => {
   return (
     <Fragment>
-      <div style={{ ...styles.inlineContainer, ...props.style }}>
+      <div id={props.id} style={{ ...styles.inlineContainer, ...props.style }}>
         {props.children}
       </div>
       {props.error ? <p style={styles.error}>{props.error}</p> : null}

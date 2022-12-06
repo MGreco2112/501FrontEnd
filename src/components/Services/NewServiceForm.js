@@ -40,16 +40,6 @@ const NewServiceForm = (props) => {
                 </InlineInputContainer>
                 <InlineInputContainer>
                     <Input
-                        name="name"
-                        id="name"
-                        value={newService.name}
-                        placeholder="Service Name"
-                        onChange={handleChange}
-                        required
-                    />
-                </InlineInputContainer>
-                <InlineInputContainer>
-                    <Input
                         name="date"
                         id="date"
                         value={newService.date}

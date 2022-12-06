@@ -5,9 +5,12 @@ import { AuthContext } from "../poviders/AuthProvider";
 import { useParams } from "react-router-dom";
 import Service from "../Services/Service";
 import Button from "../common/Button";
+import { useNavigate } from "react-router-dom";
 
 const DisplayService = () => {
     const params = useParams();
+
+    const navigate = useNavigate();
 
     const [auth] = useContext(AuthContext);
 
@@ -60,7 +63,11 @@ const DisplayService = () => {
     const displayServices = () => {
         return displayedServices.map(service => {
             return <Service service={service} key={service.name} isPII={false}/>
-        })
+        });
+    }
+
+    const onClick = () => {
+        navigate(`/service/newService/${params.companyId}`);
     }
 
     const displayParsedPage = () => {
@@ -69,7 +76,7 @@ const DisplayService = () => {
                 {displayedServices.length > 0 ?
                     displayServices()
                 :
-                    <Button>Add New Service</Button>
+                    <Button onClick={onClick}>Add New Service</Button>
                 }
             </Container>
         );

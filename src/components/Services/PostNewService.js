@@ -3,7 +3,9 @@ import axios from "axios";
 import { AuthContext } from "../poviders/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import Container from "../common/Container";
 import NewServiceForm from "./NewServiceForm";
+import NewFieldForm from "./NewFieldForm";
 
 const PostNewService = () => {
     const params = useParams();
@@ -12,11 +14,11 @@ const PostNewService = () => {
 
     const [auth] = useContext(AuthContext);
 
-    const [serviceSubmitted, setServiceSubmitted] = useState(true);
+    const [serviceSubmitted, setServiceSubmitted] = useState(false);
 
     const [newService, setNewService] = useState({
        name: "",
-       isExternallyFunded: undefined,
+       isExternallyFunded: false,
        date: "",
        fName: "",
        lName: "",
@@ -28,9 +30,27 @@ const PostNewService = () => {
 
     const [newServiceFields, setNewServiceFields] = useState([]);
 
+    const [newServiceField, setNewServiceField] = useState({
+        name: "",
+        isString: false,
+        isInt: false,
+        isFloat: false,
+        isPii: false,
+        stringValue: "",
+        intValue: undefined,
+        floatValue: undefined
+    });
+
     const updateNewServiceForm = (field, value) => {
         setNewService({
             ...newService,
+            [field]: value
+        });
+    }
+
+    const updateNewFieldForm = (field, value) => {
+        setNewServiceField({
+            ...newServiceField,
             [field]: value
         });
     }
@@ -87,11 +107,15 @@ const PostNewService = () => {
         setServiceSubmitted(true);
     }
 
+    const onFieldFormSubmit = () => {
+        alert("Form Completed");
+    }
+
     const displayForms = () => {
         if (!serviceSubmitted) {
-            displayNewServiceForm();
+            return displayNewServiceForm();
         } else {
-
+            return displayNewFieldForm();
         }
     }
 
@@ -102,7 +126,17 @@ const PostNewService = () => {
                 onChange={updateNewServiceForm}
                 newService={newService}
             />
-        )
+        );
+    }
+
+    const displayNewFieldForm = () => {
+        return (
+            <NewFieldForm
+                onSubmit={onFieldFormSubmit}
+                onChange={updateNewFieldForm}
+                newField={newServiceField}
+            />
+        );
     }
 
 
