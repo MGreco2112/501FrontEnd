@@ -38,14 +38,6 @@ const DisplayCompany = () => {
         }
     }, [auth, params.companyId]);
 
-    const displayServices = () => {
-        if (company.serviceSet.lenght != 0) {
-            return company.serviceSet.map(service => {
-                return <Service service={service} key={service.name} onSelect={onServiceClick}/>
-            });
-        }
-    }
-
     const displayUsers = () => {
         if (company.users.length != 0) {
             return company.users.map(user => {
@@ -61,11 +53,7 @@ const DisplayCompany = () => {
             })
         }
     }
-
-    const onServiceClick = () => {
-
-    }
-
+    
     const onUserClick = () => {
 
     }
@@ -94,7 +82,7 @@ const DisplayCompany = () => {
 
                             <h2>Services:</h2>
 
-                            {displayServices()}
+                            {/*Navigate To Services Page*/}
                                 
                         </div>
                         <div style={{flexDirection: 'column'}}>
