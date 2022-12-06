@@ -8,6 +8,7 @@ import CurrentUser from "../user/CurrentUser";
 import InviteUser from "../InviteUsers/InviteUser";
 import AcceptUserRoleInvite from "../InviteUsers/AcceptUserRoleInvite";
 import DisplayCompany from "../Companies/DisplayCompany";
+import DisplayService from "../Services/DisplayService";
 
 const AppRouter = () => {
     return (
@@ -21,6 +22,7 @@ const AppRouter = () => {
             <Route path="/inviteUser" element={<InviteUser/>}/>
             <Route path="/invite/:role/:username/:inviteId" element={<AcceptUserRoleInvite/>}/>
             <Route path="/company/:companyId" element={<DisplayCompany/>}/>
+            <Route path="/service/:companyId" element={<DisplayService/>}/>
         </Routes>
     </div>
     )

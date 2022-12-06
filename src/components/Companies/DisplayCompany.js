@@ -4,11 +4,14 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Container from "../common/Container";
 import InlineInputContainer from "../common/InlineInputContainer";
-import Service from "../Services/Service";
+import Button from "../common/Button";
 import User from "../user/User";
 import Partner from "../Partner/Partner";
+import { useNavigate } from "react-router-dom";
 
 const DisplayCompany = () => {
+    const navigate = useNavigate();
+
     const params = useParams();
 
     const [auth] = useContext(AuthContext);
@@ -53,6 +56,10 @@ const DisplayCompany = () => {
             })
         }
     }
+
+    const onClick = () => {
+        navigate(`/service/${company.id}`);
+    }
     
     const onUserClick = () => {
 
@@ -82,7 +89,7 @@ const DisplayCompany = () => {
 
                             <h2>Services:</h2>
 
-                            {/*Navigate To Services Page*/}
+                            <Button type="button" onClick={onClick}>Show Connected Services</Button>
                                 
                         </div>
                         <div style={{flexDirection: 'column'}}>
