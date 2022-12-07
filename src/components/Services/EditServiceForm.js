@@ -9,16 +9,13 @@ import Button from "../common/Button";
 import Input from "../common/Input";
 import InlineInputContainer from "../common/InlineInputContainer";
 import Checkbox from "../common/Checkbox";
+import EditCustomFields from "./EditCustomFields";
 
 const EditServiceForm = (props) => {
     const {onSubmit, onChange, service, customFields} = props;
 
     const handleChange = (e) => {
         onChange(e.target.id, e.target.value);
-    }
-
-    const handleFieldChange = (e) => {
-        
     }
 
     const handleFunding = () => {
@@ -37,28 +34,11 @@ const EditServiceForm = (props) => {
         }
     }
 
-    const handleDisplayField = (field) => {
-        if (field.stringValue != null) {
-            return field.stringValue;
-        } else if (field.intValue != null) {
-            return field.intValue;
-        } else {
-            return field.floatValue;
-        }
-    }
-
     const displayCustomFields = () => {
-        return service.customServiceFields.map(field => {
+        return customFields.map(field => {
             return (
-                <InlineInputContainer>
-                    <Input
-                        name="name"
-                        id="name"
-                        value={field.name}
-                        placeholder="Field Name"
-                        onChange={handleFieldChange}
-                    />
-                </InlineInputContainer>
+                // <EditCustomFields field={field} key={field.id}/>
+                <div/>
             );
         })
     }
