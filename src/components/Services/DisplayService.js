@@ -26,6 +26,12 @@ const DisplayService = (props) => {
         console.log(service);
     }
 
+    const displayCustomFields = () => {
+        return service.customServiceFields.map(field => {
+            return <h2>{field.name}</h2>
+        })
+    }
+
     const formatPage = () => {
         return (
             <Container>
@@ -69,6 +75,16 @@ const DisplayService = (props) => {
                             }
                         </div>
                     </div>    
+                    <div style={{
+                            flex: 1,
+                            flexDirection: 'column',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}>
+                            
+                        {displayCustomFields()}
+                    </div>
                 </div>
             </Container>
         );
