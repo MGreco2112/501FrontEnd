@@ -28,15 +28,38 @@ const DisplayService = (props) => {
         console.log(service);
     }
 
-    const updateServiceForm = (field, value) => {
-        setService({
-            ...service,
-            [field]: value
-        });
+    const formatPage = () => {
+        return (
+            <Container>
+                <div style={{
+                            flex: 1,
+                            flexDirection: 'column',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}>
+                    <h1>{service.name}</h1>
+
+                    <div style={{flexDirection: 'row'}}>
+
+                        <div style={{flexDirection: 'column'}}>
+                            <h2>Funding Date</h2>
+                            <h3>{service.date}</h3>
+                        </div>
+                    </div>    
+                </div>
+            </Container>
+        );
     }
 
     return (
-        <h1>DisplayService</h1>
+        <Container>
+            {loading ? 
+                <h1>Loading...</h1>
+                :
+                formatPage()
+            }
+        </Container>
     );
 }
 
