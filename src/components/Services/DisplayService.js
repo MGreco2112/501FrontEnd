@@ -36,20 +36,7 @@ const DisplayService = (props) => {
     }
 
     return (
-        <Container>
-            { loading ?
-                <h1>Loading...</h1>
-                :
-
-                <EditServiceForm
-                    onChange={updateServiceForm}
-                    service={service}
-                    customFields={service.customServiceFields}
-                />
-                
-                
-            }
-        </Container>
+        <h1>DisplayService</h1>
     );
 }
 
