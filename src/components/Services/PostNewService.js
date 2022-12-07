@@ -72,7 +72,7 @@ const PostNewService = () => {
     const _postNewServiceFields = async (data, serviceId) => {
         let route = `http://localhost:8080/service/customServiceField`;
 
-        if (data.length > 0) {
+        if (data.length > 1) {
             route += `/bulk`;
         } else {
 
@@ -97,7 +97,7 @@ const PostNewService = () => {
                 }
             });
 
-
+            console.log(res.data);
         } catch (err) {
             console.error(err.message ? err.message : err.response);
         }
@@ -108,7 +108,9 @@ const PostNewService = () => {
     }
 
     const onFieldFormSubmit = () => {
-        alert("Form Completed");
+        newServiceFields.push(newServiceField);
+
+        _postService(newService);
     }
 
     const displayForms = () => {

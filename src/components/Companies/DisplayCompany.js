@@ -58,7 +58,7 @@ const DisplayCompany = () => {
     }
 
     const onClick = () => {
-        navigate(`/service/${company.id}`);
+        navigate(`/service/${company.companyId}`);
     }
     
     const onUserClick = () => {

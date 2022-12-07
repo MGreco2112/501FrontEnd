@@ -125,7 +125,7 @@ const Signup = () => {
             });
 
             // _connectUserToCompany(res.data.id, userId, token);
-            _createNewPartner(newPartner, token, userId, res.data.id);
+            _createNewPartner(newPartner, token, userId, res.data.companyId);
         } catch (err) {
             console.error(err.response ? err.response : err.message);
         }
@@ -150,6 +150,8 @@ const Signup = () => {
         const company = {
             id: companyId
         };
+
+        console.log(company);
 
         try {
             const res = await axios.put(`http://localhost:8080/users/addCompanyToUser/${userId}`, company, {

@@ -31,9 +31,9 @@ const NewFundingPartnerForm = (props) => {
             <Form onSubmit={onSubmit} style={{marginTop: "1em"}}>
                 <InlineInputContainer>
                     <Input
-                        name="partnerName"
-                        id="partnerName"
-                        value={newPartner.partnerName}
+                        name="name"
+                        id="name"
+                        value={newPartner.name}
                         placeholder="New Partner Name"
                         onChange={handleChange}
                         required

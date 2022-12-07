@@ -48,6 +48,8 @@ const NewFieldForm = (props) => {
     const handleCheckbox = () => {
         if (document.getElementById("pii").checked) {
             newField.isPii = true;
+        } else {
+            newField.isPii = false;
         }
     }
 

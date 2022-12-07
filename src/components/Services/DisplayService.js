@@ -73,11 +73,9 @@ const DisplayService = () => {
     const displayParsedPage = () => {
         return (
             <Container>
-                {displayedServices.length > 0 ?
-                    displayServices()
-                :
-                    <Button onClick={onClick}>Add New Service</Button>
-                }
+                {displayServices()}
+             
+            <Button onClick={onClick}>Add New Service</Button>
             </Container>
         );
     }
