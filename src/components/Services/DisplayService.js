@@ -53,14 +53,14 @@ const DisplayService = (props) => {
                         {service.fName != null ? 
                             <div style={{flexDirection: 'column'}}>
                                 <h2>Name:</h2>
-                                <h3>{service.fName}</h3> <h3>{service.lName}</h3>
+                                <h3>{service.lName}, {service.fName}</h3>
                                 <h2>Address:</h2> <h2>City:</h2>
-                                <h3>{service.address}</h3> <h3>{service.city}</h3>
+                                <h3>{service.address}, {service.city}</h3>
                                 <h2>Gender:</h2>
                                 <h3>{service.gender}</h3>
                             </div>
                             :
-                            <div/>    
+                            null    
                         }
                         <div style={{flexDirection: 'column', paddingLeft: '20px'}}>
                             {service.funded ?
@@ -82,7 +82,7 @@ const DisplayService = (props) => {
                             justifyContent: 'center',
                             alignItems: 'center'
                         }}>
-                            
+
                         {displayCustomFields()}
                     </div>
                 </div>
