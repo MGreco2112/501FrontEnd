@@ -18,6 +18,8 @@ const DisplayService = () => {
 
     const [displayedPIIServices, setDisplayedPIIServices] = useState();
 
+    const [showPiiFields, setShowPiiFields] = useState(false);
+
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -41,12 +43,12 @@ const DisplayService = () => {
         if (auth.token) {
             _getParsedServicesByCompanyId();
         }
-    }, [auth]);
+    }, [auth, params.companyId]);
 
     const _getPIIServices = async () => {
-        if (auth.roles.contains("ROLE_ADMIN") || auth.roles.contains("ROLE_MANAGER")) {        
+        if (auth.roles.includes("ROLE_ADMIN") || auth.roles.includes("ROLE_MANAGER")) {        
             try {
-                const res = await axios.get(`localhost:8080/service/servicesByCompanyId/${params.companyId}`, {
+                const res = await axios.get(`http://localhost:8080/service/servicesByCompanyId/${params.companyId}`, {
                     headers: {
                         Authorization: `Bearer ${auth.token}`
                     }
@@ -54,6 +56,7 @@ const DisplayService = () => {
 
                 setDisplayedPIIServices(res.data);
                 setLoading(false);
+                setShowPiiFields(true);
             } catch (err) {
                 console.error(err.message ? err.message : err.response);
             }
@@ -61,9 +64,20 @@ const DisplayService = () => {
     }
 
     const displayServices = () => {
-        return displayedServices.map(service => {
-            return <Service service={service} key={service.name} isPII={false} onSelect={onServiceSelect}/>
-        });
+        if (showPiiFields) {
+            return displayedPIIServices.map(service => {
+                return <Service service={service} key={service.name} isPII={true} onSelect={onServiceSelect}/>
+            })
+        } else {
+            return displayedServices.map(service => {
+                return <Service service={service} key={service.name} isPII={false} onSelect={onServiceSelect}/>
+            });
+        }
+
+    }
+
+    const displayParsedData = () => {
+        setShowPiiFields(false);
     }
 
     const onClick = () => {
@@ -78,6 +92,16 @@ const DisplayService = () => {
         return (
             <Container>
                 {displayServices()}
+
+                {auth.roles.includes("ROLE_ADMIN") || auth.roles.includes("ROLE_MANAGER") ?
+                    showPiiFields ?
+
+                        <Button onClick={displayParsedData}>Display Non Sensitive Service Data</Button>
+                        :
+                        <Button onClick={_getPIIServices}>Display PII Service Data</Button>
+                    :
+                    null
+                }
              
                 <Button onClick={onClick}>Add New Service</Button>
             </Container>
