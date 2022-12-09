@@ -2,6 +2,7 @@ import React, {useEffect, useState, useContext} from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Container from "../common/Container";
 import { AuthContext } from "../poviders/AuthProvider";
+import CustomField from "./CustomField";
 
 const DisplayService = (props) => {
     const location = useLocation();
@@ -28,7 +29,7 @@ const DisplayService = (props) => {
 
     const displayCustomFields = () => {
         return service.customServiceFields.map(field => {
-            return <h2>{field.name}</h2>
+            return <CustomField field={field} key={field.id}/>
         })
     }
 
