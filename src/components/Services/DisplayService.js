@@ -7,6 +7,8 @@ import CustomField from "./CustomField";
 const DisplayService = (props) => {
     const location = useLocation();
 
+    const navigate = useNavigate();
+
     const [auth] = useContext(AuthContext);
 
     const [service, setService] = useState();
@@ -29,8 +31,12 @@ const DisplayService = (props) => {
 
     const displayCustomFields = () => {
         return service.customServiceFields.map(field => {
-            return <CustomField field={field} key={field.id}/>
+            return <CustomField field={field} key={field.id} onSelect={onFieldClick}/>
         })
+    }
+
+    const onFieldClick = (field) => {
+        //TODO build route to edit custom field
     }
 
     const formatPage = () => {
